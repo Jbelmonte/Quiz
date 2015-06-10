@@ -9,8 +9,9 @@ router.get('/', function(req, res, next) {
 
 
 // Quiz
-router.get('/quizes/question', quizController.question);
-router.get('/quizes/answer', quizController.answer);
+router.get('/quizes', quizController.index);
+router.get('/quizes/:quizId(\\d+)', quizController.show);
+router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 
 /* GET home page. */
 router.get('/author', function(req, res, next) {
