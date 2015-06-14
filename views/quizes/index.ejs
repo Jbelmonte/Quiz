@@ -1,11 +1,14 @@
-<p>
-	<form action="" method="GET">
-		<input type="text" name="search">
-		<input type="submit" value="Buscar">
-	</form>
-</p>
-<table>
+<table width="100%">
+	<tr>
+		<td>
+			<form action="" method="GET">
+				<input type="text" name="search">
+				<input type="submit" value="Buscar">
+			</form>
+		</td>
+	</tr>
 	<% for (var i=0; i<quizes.length; i++) { %>
 		<tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
 	<% } %>
+	<tr><td><a href="quizes/new"><button type="button">Crear pregunta</button></a></td></tr>
 </table>
