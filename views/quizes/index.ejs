@@ -1,6 +1,6 @@
 <table width="100%">
 	<tr>
-		<td>
+		<td colspan="2">
 			<form action="" method="GET">
 				<input type="text" name="search">
 				<input type="submit" value="Buscar">
@@ -8,7 +8,10 @@
 		</td>
 	</tr>
 	<% for (var i=0; i<quizes.length; i++) { %>
-		<tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
+		<tr>
+			<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+			<td><a href="quizes/<%= quizes[i].id %>/edit"><button type="button">Editar</button></a></td>
+		</tr>
 	<% } %>
-	<tr><td><a href="quizes/new"><button type="button">Crear pregunta</button></a></td></tr>
+	<tr><td colspan="2"><a href="quizes/new"><button type="button">Crear pregunta</button></a></td></tr>
 </table>
