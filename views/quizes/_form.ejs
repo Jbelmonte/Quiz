@@ -1,4 +1,17 @@
 <p>
+<label for="tema" class="rem">Temática:</label>
+<select name="quiz[tema]">
+	<option value="">- Tema -</option>
+	<% for(var i=0; i<tematicas.length; i++) { %>
+		<option value="<%= tematicas[i].codigo %>"
+			<% if (quiz.tema === tematicas[i].codigo) { %> selected<% } %>>
+			<%= tematicas[i].descripcion %>
+		</option>
+	<% } %>
+</select>
+</p>
+
+<p>
 <label for="preg" class="rem">Pregunta:</label>
 <input type="text" id="preg" name="quiz[pregunta]" value="<%= quiz.pregunta %>">
 </p>

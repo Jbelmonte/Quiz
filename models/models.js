@@ -26,29 +26,51 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz;
 
+// Tematica
+var Tematica = sequelize.import(path.join(__dirname, 'tematica'));
+exports.Tematica = Tematica;
+
 // Cargar e inicializar si está vacía
 sequelize.sync().then(function () {
+	// Inicializar Quiz
+	Tematica.count().then(function (count) {
+		if (count === 0) {
+			Tematica.bulkCreate([
+				{ codigo: 'otro', descripcion: 'Otro'},
+				{ codigo: 'humanidades', descripcion: 'Humanidades'},
+				{ codigo: 'ocio', descripcion: 'Ocio'},
+				{ codigo: 'ciencia', descripcion: 'Ciencia'},
+				{ codigo: 'tecnologia', descripcion: 'Tecnología'}
+			]).then(function () {
+				console.log('Base de datos inicializada con temáticas');
+			});
+		}
+	});
 	Quiz.count().then(function (count) {
 		if (count === 0) {
 			Quiz.bulkCreate([
 				{
 					pregunta:  'Capital de Italia',
-					respuesta: 'Roma'
+					respuesta: 'Roma',
+					tema: 'humanidades'
 				},
 				{
 					pregunta:  'Capital de España',
-					respuesta: 'Madrid'
+					respuesta: 'Madrid',
+					tema: 'humanidades'
 				},
 				{
 					pregunta:  'Nombre de nuestro planeta',
-					respuesta: 'Tierra'
+					respuesta: 'Tierra',
+					tema: 'ciencia'
 				},
 				{
 					pregunta:  'Nombre de nuestro satélite',
-					respuesta: 'Luna'
+					respuesta: 'Luna',
+					tema: 'ciencia'
 				}
 			]).then(function () {
-				console.log('Base de datos inicializada');
+				console.log('Base de datos inicializada con preguntas');
 			});
 		}
 	});

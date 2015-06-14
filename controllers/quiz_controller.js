@@ -45,9 +45,12 @@ exports.answer = function (req, res) {
 exports.new = function (req, res) {
 	var quiz = models.Quiz.build({
 		pregunta: 'Pregunta',
-		respuesta: 'Respuesta'
+		respuesta: 'Respuesta',
+		tema: ''
 	});
-	res.render('quizes/new', {quiz: quiz, errors: []});
+	models.Tematica.findAll().then(function(data) {
+		res.render('quizes/new', {quiz: quiz, tematicas: data, errors: []});
+	});
 };
 
 // POST /quizes/create
@@ -58,9 +61,11 @@ exports.create = function (req, res) {
 	quiz.validate()
 		.then(function(err) {
 			if (err) {
-				res.render('quizes/new', {quiz: quiz, errors: err.errors});
+				models.Tematica.findAll().then(function(data) {
+					res.render('quizes/new', {quiz: quiz, tematicas: data, errors: err.errors});
+				});
 			} else {
-				quiz.save({fields: ['pregunta', 'respuesta']})
+				quiz.save({fields: ['pregunta', 'respuesta', 'tema']})
 					.then(function () {
 						res.redirect('/quizes');
 					});
@@ -71,22 +76,29 @@ exports.create = function (req, res) {
 // GET /quizes/id/edit
 exports.edit = function (req, res) {
 	var quiz = req.quiz;
-	res.render('quizes/edit', {quiz: quiz, errors: []});
+	models.Tematica.findAll().then(function(data) {
+		res.render('quizes/edit', {quiz: quiz, tematicas: data, errors: []});
+	});
 };
 
 
 // PUT /quizes/id/
 exports.update = function (req, res) {
 	var quiz = req.quiz;
+	console.log('Modificar la pregunta '+quiz.id+' con los datos', req.body);
+
 	quiz.pregunta = req.body.quiz.pregunta;
 	quiz.respuesta = req.body.quiz.respuesta;
+	quiz.tema = req.body.quiz.tema;
 
 	quiz.validate()
 		.then(function (err) {
 			if (err) {
-				res.render('quizes/edit', {quiz: quiz, errors: err.errors});
+				models.Tematica.findAll().then(function(data) {
+					res.render('quizes/edit', {quiz: quiz, tematicas: data, errors: err.errors});
+				});
 			} else {
-				quiz.save({fields: ['pregunta', 'respuesta']})
+				quiz.save({fields: ['pregunta', 'respuesta', 'tema']})
 					.then(function () {
 						res.redirect('/quizes');
 					});
