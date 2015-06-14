@@ -16,7 +16,7 @@ exports.load = function (req, res, next, quizId) {
 // GET /quizes?search=
 exports.index = function (req, res) {
 	var criteria = {
-		order: '`pregunta` ASC'
+		order: '"pregunta" ASC'
 	};
 	if (req.query.search) {
 		var search = '%' + req.query.search.replace(/[ ]+/g, '%') + '%';
