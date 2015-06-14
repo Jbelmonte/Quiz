@@ -93,3 +93,12 @@ exports.update = function (req, res) {
 			}
 		});
 };
+
+
+// DELETE /quizes/ide
+exports.destroy = function (req, res) {
+	var quiz = req.quiz;
+	quiz.destroy().then(function () {
+		res.redirect('/quizes');
+	});
+};
