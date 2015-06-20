@@ -10,14 +10,16 @@ router.get('/', function(req, res, next) {
 });
 
 
+// Autoload de quiz
+router.param('quizId', quizController.load);
+router.param('commentId', commentController.load);
+
+
 // Rutas de session
 router.get('/login',	sessionController.new);
 router.post('/login',	sessionController.create);
 router.get('/logout',	sessionController.destroy);
 
-
-// Autoload de quiz
-router.param('quizId', quizController.load);
 
 // Quiz
 router.get('/quizes',						quizController.index);
@@ -32,6 +34,8 @@ router.post('/quizes/create',				sessionController.loginRequired, quizController
 
 router.get('/quizes/:quizId(\\d+)/comments/new',	commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',		commentController.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
+					sessionController.loginRequired, commentController.publish);
 
 /* GET home page. */
 router.get('/author', function(req, res, next) {
