@@ -30,6 +30,16 @@ exports.Quiz = Quiz;
 var Tematica = sequelize.import(path.join(__dirname, 'tematica'));
 exports.Tematica = Tematica;
 
+// Comentarios
+var Comment = sequelize.import(path.join(__dirname, 'comment'));
+exports.Comment = Comment;
+
+
+// Relaciones del modelo
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+
 // Cargar e inicializar si está vacía
 sequelize.sync().then(function () {
 	// Inicializar Quiz
