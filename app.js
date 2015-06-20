@@ -38,6 +38,34 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+// Modulo 9: P2P: timeout de sesión (cookie) de 2 minutos
+app.use(function (req, res, next) {
+    var timeout = 10000; // 2 minutes
+    if (req.session.user) {
+        console.log('Auto-logout. User is logged.');
+        var now = Date.now();
+        var currentTimeout = req.session.timeoutSesion;
+        if (currentTimeout) {
+            // Comprobar si ha caducado
+            if (now > currentTimeout) {
+                console.log('Auto-logout. Expired! Invalidating session.');
+                var redir = req.session.redir || '/index';
+                req.session.destroy();
+                res.redirect(redir.toString());
+                return;
+            }
+        }
+
+        // Asignar de nuevo todo el tiempo de sesion
+        var sessionTimeout = now + timeout;
+        console.log('Auto-logout. Active session. Configuring new timeout: '+sessionTimeout);
+        req.session.timeoutSesion = sessionTimeout;
+    }
+    next();
+});
+
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
