@@ -2,4 +2,3 @@ node_modules
 quiz.sqlite
 npm-debug.log
 .env
-certs/*
