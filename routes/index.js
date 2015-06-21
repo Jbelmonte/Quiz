@@ -25,6 +25,7 @@ router.get('/logout',	sessionController.destroy);
 router.get('/quizes',						quizController.index);
 router.get('/quizes/:quizId(\\d+)',			quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer',	quizController.answer);
+router.get('/quizes/statistics',			quizController.statistics);
 
 router.get('/quizes/:quizId(\\d+)/edit',	sessionController.loginRequired, quizController.edit);
 router.put('/quizes/:quizId(\\d+)',			sessionController.loginRequired, quizController.update);

@@ -126,3 +126,32 @@ exports.destroy = function (req, res) {
 		next(error);
 	});
 };
+
+
+// GET /quizes/statistics
+exports.statistics = function (req, res, next) {
+	models.Quiz.findAll({ include: [{model: models.Comment}]}).then(function (data) {
+		var stats = {
+			numPreguntas: data.length,
+			numComentarios: 0,
+			commentsPorPregunta: 0,
+			numPreguntasNoComentadas: 0,
+			numPreguntasComentadas: 0
+		};
+		if (data.length > 0) {
+			var comments = 0;
+			var quizWithComments = 0;
+			var comentarios = data.forEach(function (quiz) {
+				comments += quiz.Comments.length;
+				quizWithComments += quiz.Comments.length? 1 : 0;
+			});
+			stats.numComentarios = comments;
+			stats.commentsPorPregunta = comments / stats.numPreguntas;
+			stats.numPreguntasComentadas = quizWithComments;
+			stats.numPreguntasNoComentadas = stats.numPreguntas - quizWithComments;
+		}
+		res.render('quizes/statistics', { stats: stats, errors: []});
+	}).catch(function(err) {
+		next(err);
+	});
+};
