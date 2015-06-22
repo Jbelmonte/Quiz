@@ -41,7 +41,7 @@ app.use(function (req, res, next) {
 
 // Modulo 9: P2P: timeout de sesión (cookie) de 2 minutos
 app.use(function (req, res, next) {
-    var timeout = 10000; // 2 minutes
+    var timeout = 120000; // 2 minutes
     if (req.session.user) {
         console.log('Auto-logout. User is logged.');
         var now = Date.now();
